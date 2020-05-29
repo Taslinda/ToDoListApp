@@ -26,7 +26,14 @@ class MainActivity : AppCompatActivity() {
         taskViewModel = ViewModelProvider(this.factory).get(TaskViewModel::class.java)
         binding.myViewModel = taskViewModel
         binding.lifecycleOwner = this
-        displayTasksList()
+        initRecyclerView()
+
+        taskViewModel.message.observe(this, Observer {<String>!
+            it.getContentIfNoHandled()?.let {String
+                Toast.makeText(this, it. Toast.LENGTH_LONG).show()
+            }
+        })
+
     }
 
     private fun initRecyclerView(){
@@ -42,7 +49,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun listTaskClicked(task: Task){
-        Toast.makeText(this,"selected createdAt is ${task.createdAt}", Toast.LENGTH_LONG).SHOW()
+//        Toast.makeText(this,"selected createdAt is ${task.createdAt}", Toast.LENGTH_LONG).SHOW()
         taskViewModel.initUpdateAndDelete(task)
     }
 }

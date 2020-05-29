@@ -9,11 +9,11 @@ data class Task (
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "task_id")
-    val id : int,
+    var id : int,
 
     @ColumnInfo(name = "task_createdAt")
-    val createdAt : string,
+    var createdAt : string,
 
     @ColumnInfo(name = "task_taskName")
-    val taskName : string
+    var taskName : string
 )
