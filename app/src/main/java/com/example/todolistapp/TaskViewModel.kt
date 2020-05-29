@@ -10,6 +10,8 @@ import com.example.todolistapp.Database.TaskRepository
 class TaskViewModel(private val repository: TaskRepository) : ViewModel(),Observable{
 
     val tasks = repository.tasks
+    private var isUpdateOrDelete = false
+    private lateinit var taskToUpdateOrDelete: Task
 
     @Bindable
     val inputCreatedAt = MutableLiveData<String>()
@@ -53,6 +55,15 @@ class TaskViewModel(private val repository: TaskRepository) : ViewModel(),Observ
 
     fun clearAll(task: Task) = viewModelScope.launch {
         repository.deleteAll()
+    }
+
+    fun initUpdateAndDelete(task: Task){
+        inputTaskName.value = task.createdAt
+        inputTaskName.value = task.taskName
+        isUpdateOrDelete = true
+        taskToUpdateOrDelete = task
+        saveOrUpdateButtonText.value = "Upadate"
+        clearAllOrDeleteButtonText.value = "Delete"
     }
 
     override fun removeOnPropertyChangedCallback(callback: Observable.onPropertyChangedCallback?){

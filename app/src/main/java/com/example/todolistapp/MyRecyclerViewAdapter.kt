@@ -10,7 +10,9 @@ import kotlinx.android.synthetic.main.list_task.view.*
 import java.text.FieldPosition
 
 
-class MyRecyclerViewAdapter (private val tasksList: List<Task>) : AlertController.RecycleView.Adapter<MyViewHolder>()
+class MyRecyclerViewAdapter (private val tasksList: List<Task>
+                             , private val clickListener:(Task)->Unit)
+    : RecycleView.Adapter<MyViewHolder>()
 
     {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -24,14 +26,17 @@ class MyRecyclerViewAdapter (private val tasksList: List<Task>) : AlertControlle
         }
 
         override fun onBindingViewHolder(holder: MyViewHolder, position: Int){
-            holder.bind(tasksList[position])
+            holder.bind(tasksList[position].clickListener)
         }
 
     }
     class MyViewHolder(val binding: ListTaskBinding) : RecycleView.ViewHolder(binding.root) {
 
-        fun bind(task: Task) {
+        fun bind(task: Task,clickListener:(Task)->Unit) {
             binding.createdAtTextView.text = task.createdAt
             binding.taskNameTextView.text = task.createdAt
+            binding.listTaskLayout.setOnClickListener {
+                clickListener(task)
+            }
         }
     }

@@ -22,7 +22,7 @@
         android:layout_marginBottom="5dp"
         android:ems="10"
         android:text="@={myViewModel.inputCreatedAt}"
-        android:hint="Task's createdAt"
+        android:hint="Date"
         android:textStyle="bold" />
 
     <EditText
