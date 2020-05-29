@@ -12,11 +12,8 @@ data class Task (
     val id : int,
 
     @ColumnInfo(name = "task_createdAt")
-    val createdAt : datetime,
-
-    @ColumnInfo(name = "task_todoId")
-    val todoId : int,
+    val createdAt : string,
 
     @ColumnInfo(name = "task_taskName")
-    val taskName : varchar
+    val taskName : string
 )
