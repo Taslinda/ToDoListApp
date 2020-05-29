@@ -57,11 +57,17 @@ class TaskViewModel(private val repository: TaskRepository) : ViewModel(),Observ
     }
 
     fun insert(task: Task) = viewModelScope.launch {
-        repository.insert(task)
-        statusMessage.value = Event("Task Inserted Succesfully")
+        val newRowId: Long = repository.insert(task)
+        if (newRowId > -1) {
+            statusMessage.value = Event("Task Inserted Succesfully $newRowId")
+        } else {
+            statusMessage.value = Event("Error Occurred")
+        }
     }
 
     fun update(task: Task) = viewModelScope.launch {
+        val noOfRows = repository.update(task)
+        if(noOfRows>0){
         repository.update(task)
         inputCreatedAt.value = null
         inputTaskName.value = null
@@ -69,22 +75,37 @@ class TaskViewModel(private val repository: TaskRepository) : ViewModel(),Observ
         taskToUpdateOrDelete = task
         saveOrUpdateButtonText.value = "Save"
         clearAllOrDeleteButtonText.value = "ClearAll"
+    }else {
+         statusMessage.value = Event("Error Occured")
+        }
     }
 
     fun delete(task: Task) = viewModelScope.launch {
-        repository.delete(task)
-        inputCreatedAt.value = null
-        inputTaskName.value = null
-        isUpdateOrDelete = false
-        taskToUpdateOrDelete = task
-        saveOrUpdateButtonText.value = "Save"
-        clearAllOrDeleteButtonText.value = "ClearAll"
-        statusMessage.value = Event("Task Deleted Succesfully")
+        val noOfRowsDeleted = repository.delete(task)
+
+        if (noOfRowsDeleted > 0) {
+            repository.delete(task)
+            inputCreatedAt.value = null
+            inputTaskName.value = null
+            isUpdateOrDelete = false
+            taskToUpdateOrDelete = task
+            saveOrUpdateButtonText.value = "Save"
+            clearAllOrDeleteButtonText.value = "ClearAll"
+            statusMessage.value = Event("Task Deleted Succesfully")
+        } else {
+            statusMessage.value = Event("Error Occurred")
+        }
     }
 
     fun clearAll(task: Task) = viewModelScope.launch {
-        repository.deleteAll()
-        statusMessage.value = Event("All Tasks Deleted Succesfully")
+        val noOfRowsDeleted = repository.deleteAll()
+        if(noOfRowsDeleted>0){
+            statusMessage.value = Event("All Tasks Deleted Succesfully")
+        }else{
+            statusMessage.value = Event("Error Occurred")
+        }
+
+
     }
 
     fun initUpdateAndDelete(task: Task){
