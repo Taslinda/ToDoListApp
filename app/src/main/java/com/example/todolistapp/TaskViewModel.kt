@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.todolistapp.Database.Task
 import com.example.todolistapp.Database.TaskRepository
+import java.util.regex.Pattern
 
 class TaskViewModel(private val repository: TaskRepository) : ViewModel(),Observable{
 
@@ -35,17 +36,25 @@ class TaskViewModel(private val repository: TaskRepository) : ViewModel(),Observ
     }
 
     fun saveOrUpdate(){
-        if(isUpdateOrDelete){
-            taskToUpdateOrDelete.createdAt = inputCreatedAt.value!!
-            taskToUpdateOrDelete.taskName = inputTaskName.value!!
-            update(taskToUpdateOrDelete)
-        }else {
-            val createdAt = inputCreatedAt.value!!
-            val taskName = inputTaskName.value!!
-            insert(Task(0.createdAt.taskName))
-            inputCreatedAt.value = null
-            inputTaskName.value = null
+
+        if(inputCreatedAt.value==null){
+            statusMessage.value = Event("Please Enter Date Task)
+        }else if(inputTaskName.value==null){
+            statusMessage.value = Event("Please Enter Task Name")
+        }else{
+            if(isUpdateOrDelete){
+                taskToUpdateOrDelete.createdAt = inputCreatedAt.value!!
+                taskToUpdateOrDelete.taskName = inputTaskName.value!!
+                update(taskToUpdateOrDelete)
+            }else {
+                val createdAt = inputCreatedAt.value!!
+                val taskName = inputTaskName.value!!
+                insert(Task(0.createdAt.taskName))
+                inputCreatedAt.value = null
+                inputTaskName.value = null
+            }
         }
+
     }
     fun clearAllOrDelete(){
         if(isUpdateOrDelete){

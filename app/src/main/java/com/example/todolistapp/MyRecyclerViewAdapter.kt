@@ -10,11 +10,12 @@ import kotlinx.android.synthetic.main.list_task.view.*
 import java.text.FieldPosition
 
 
-class MyRecyclerViewAdapter (private val tasksList: List<Task>
-                             , private val clickListener:(Task)->Unit)
+class MyRecyclerViewAdapter (private val tasksList: List<Task>->Unit)
     : RecycleView.Adapter<MyViewHolder>()
 
     {
+        private val tasksList = ArrayList<Task>()
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val binding : ListTaskBinding = DataBindingUtil.inflate(layoutInflater,R.layout.list_task.parent,false)
@@ -29,7 +30,13 @@ class MyRecyclerViewAdapter (private val tasksList: List<Task>
             holder.bind(tasksList[position].clickListener)
         }
 
+        fun setList(tasks:List<Task>){
+            tasksList.clear()
+            tasksList.addAll(tasks)
+        }
+
     }
+
     class MyViewHolder(val binding: ListTaskBinding) : RecycleView.ViewHolder(binding.root) {
 
         fun bind(task: Task,clickListener:(Task)->Unit) {
