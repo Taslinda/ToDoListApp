@@ -3,6 +3,7 @@ package com.example.todolistapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -26,9 +27,15 @@ class MainActivity : AppCompatActivity() {
         displayTasksList()
     }
 
+    private fun initRecyclerView(){
+        binding.taskRecyclerView.layoutManager = LinearLayoutManager(this)
+        displayTasksList()
+    }
+
     private fun displayTasksList(){
         taskViewModel.tasks.observe(this, Observer {
             Log.i("MYTAG", it.toString())
+            binding.taskRecyclerView.adapter = MyRecyclerViewAdapter(it)
         })
     }
 }

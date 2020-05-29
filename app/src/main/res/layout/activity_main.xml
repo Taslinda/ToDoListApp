@@ -23,7 +23,6 @@
         android:ems="10"
         android:text="@={myViewModel.inputCreatedAt}"
         android:hint="Task's createdAt"
-        android:inputType="textPersonCreatedAt"
         android:textStyle="bold" />
 
     <EditText
@@ -66,9 +65,9 @@
     </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/task_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="@+task_recyclerView"
             android:layout_margin="5dp" />
     </LinearLayout>
 </layout>
